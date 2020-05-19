@@ -1,4 +1,4 @@
-package sk.andrejmik.bank_server.model;
+package sk.andrejmik.bank_server.entities;
 
 import lombok.Getter;
 import lombok.Setter;

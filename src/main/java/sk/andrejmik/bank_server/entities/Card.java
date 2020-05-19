@@ -1,4 +1,4 @@
-package sk.andrejmik.bank_server.model;
+package sk.andrejmik.bank_server.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
