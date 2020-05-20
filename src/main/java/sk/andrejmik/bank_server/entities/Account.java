@@ -3,6 +3,7 @@ package sk.andrejmik.bank_server.entities;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.redis.core.RedisHash;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -11,9 +12,8 @@ import java.util.List;
 
 @Getter
 @Setter
-@Entity
 @NoArgsConstructor
-@Table(name = "ACCOUNTS")
+@RedisHash("ACCOUNTS")
 public class Account extends BaseEntity
 {
     @Column(name = "NAME")

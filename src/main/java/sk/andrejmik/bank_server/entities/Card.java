@@ -4,14 +4,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.redis.core.RedisHash;
 
 import javax.persistence.*;
 
 @Getter
 @Setter
-@Entity
 @NoArgsConstructor
-@Table(name = "CARDS")
+@RedisHash("CARDS")
 public class Card extends BaseEntity
 {
     @Column(name = "CARD_NO", length = 16, unique = true)
