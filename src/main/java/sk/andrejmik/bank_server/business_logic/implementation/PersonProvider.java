@@ -2,20 +2,25 @@ package sk.andrejmik.bank_server.business_logic.implementation;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import sk.andrejmik.bank_server.business_logic.interfaces.IPersonProvider;
 import sk.andrejmik.bank_server.data_access.repository.IPersonRepository;
 import sk.andrejmik.bank_server.entities.Person;
 
 import java.util.Collection;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Slf4j
-@Service
+@Repository
 public class PersonProvider implements IPersonProvider
 {
     private final IPersonRepository mPersonRepository;
 
     @Autowired
+    @Lazy
     public PersonProvider(IPersonRepository personRepository)
     {
         mPersonRepository = personRepository;
@@ -38,7 +43,7 @@ public class PersonProvider implements IPersonProvider
     @Override
     public Person get(Object id)
     {
-        return mPersonRepository.getOne((Long) id);
+        return mPersonRepository.findById((Long) id).get();
     }
 
     @Override
@@ -64,6 +69,6 @@ public class PersonProvider implements IPersonProvider
     @Override
     public Collection<Person> getAll()
     {
-        return mPersonRepository.findAll();
+        return StreamSupport.stream(mPersonRepository.findAll().spliterator(),false).collect(Collectors.toList());
     }
 }
