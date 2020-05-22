@@ -42,7 +42,11 @@ public class AccountProvider implements IAccountProvider
     @Override
     public Account get(Object id)
     {
-        return mAccountRepository.findById((String) id).get();
+        if (mAccountRepository.findById((String) id).isPresent())
+        {
+            return mAccountRepository.findById((String) id).get();
+        }
+        return null;
     }
 
     @Override
@@ -76,6 +80,6 @@ public class AccountProvider implements IAccountProvider
     @Override
     public List<Account> getAll()
     {
-        return StreamSupport.stream(mAccountRepository.findAll().spliterator(),false).collect(Collectors.toList());
+        return StreamSupport.stream(mAccountRepository.findAll().spliterator(), false).collect(Collectors.toList());
     }
 }

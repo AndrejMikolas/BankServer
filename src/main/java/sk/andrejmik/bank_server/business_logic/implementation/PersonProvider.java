@@ -42,7 +42,11 @@ public class PersonProvider implements IPersonProvider
     @Override
     public Person get(Object id)
     {
-        return mPersonRepository.findById((String) id).get();
+        if (mPersonRepository.findById((String) id).isPresent())
+        {
+            return mPersonRepository.findById((String) id).get();
+        }
+        return null;
     }
 
     @Override

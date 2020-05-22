@@ -42,7 +42,11 @@ public class CardProvider implements ICardProvider
     @Override
     public Card get(Object id)
     {
-        return mCardRepository.findById((String) id).get();
+        if (mCardRepository.findById((String) id).isPresent())
+        {
+            return mCardRepository.findById((String) id).get();
+        }
+        return null;
     }
 
     @Override
