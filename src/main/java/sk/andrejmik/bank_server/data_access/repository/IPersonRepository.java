@@ -5,6 +5,6 @@ import org.springframework.stereotype.Repository;
 import sk.andrejmik.bank_server.entities.Person;
 
 @Repository
-public interface IPersonRepository extends CrudRepository<Person, Long>
+public interface IPersonRepository extends CrudRepository<Person, String>
 {
 }

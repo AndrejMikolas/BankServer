@@ -4,12 +4,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
 import sk.andrejmik.bank_server.business_logic.interfaces.IPersonProvider;
 import sk.andrejmik.bank_server.data_access.repository.IPersonRepository;
 import sk.andrejmik.bank_server.entities.Person;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -43,7 +42,7 @@ public class PersonProvider implements IPersonProvider
     @Override
     public Person get(Object id)
     {
-        return mPersonRepository.findById((Long) id).get();
+        return mPersonRepository.findById((String) id).get();
     }
 
     @Override
@@ -61,14 +60,22 @@ public class PersonProvider implements IPersonProvider
     }
 
     @Override
-    public void delete(Object id)
+    public boolean delete(Object id)
     {
-        mPersonRepository.deleteById((Long) id);
+        try
+        {
+            mPersonRepository.deleteById((String) id);
+            log.info("Person deleted");
+        } catch (Exception e)
+        {
+            return false;
+        }
+        return true;
     }
 
     @Override
-    public Collection<Person> getAll()
+    public List<Person> getAll()
     {
-        return StreamSupport.stream(mPersonRepository.findAll().spliterator(),false).collect(Collectors.toList());
+        return StreamSupport.stream(mPersonRepository.findAll().spliterator(), false).collect(Collectors.toList());
     }
 }

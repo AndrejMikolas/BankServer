@@ -20,9 +20,9 @@ public class AppConfig
     }
 
     @Bean
-    public RedisTemplate<Object, Object> redisTemplate()
+    public RedisTemplate<?, ?> redisTemplate()
     {
-        RedisTemplate<Object, Object> template = new RedisTemplate<>();
+        RedisTemplate<byte[], byte[]> template = new RedisTemplate<>();
         template.setConnectionFactory(redisConnectionFactory());
         return template;
     }

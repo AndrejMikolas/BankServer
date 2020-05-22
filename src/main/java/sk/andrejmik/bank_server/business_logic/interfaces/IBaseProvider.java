@@ -2,7 +2,7 @@ package sk.andrejmik.bank_server.business_logic.interfaces;
 
 import sk.andrejmik.bank_server.entities.BaseEntity;
 
-import java.util.Collection;
+import java.util.List;
 
 public interface IBaseProvider<T extends BaseEntity>
 {
@@ -12,7 +12,7 @@ public interface IBaseProvider<T extends BaseEntity>
 
     boolean update(T data);
 
-    void delete(Object id);
+    boolean delete(Object id);
 
-    Collection<T> getAll();
+    List<T> getAll();
 }

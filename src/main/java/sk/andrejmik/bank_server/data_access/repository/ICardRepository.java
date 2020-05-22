@@ -5,6 +5,6 @@ import org.springframework.stereotype.Repository;
 import sk.andrejmik.bank_server.entities.Card;
 
 @Repository
-public interface ICardRepository extends CrudRepository<Card, Long>
+public interface ICardRepository extends CrudRepository<Card, String>
 {
 }

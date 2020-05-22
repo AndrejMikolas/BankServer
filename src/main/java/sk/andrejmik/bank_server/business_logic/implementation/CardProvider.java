@@ -4,12 +4,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
 import sk.andrejmik.bank_server.business_logic.interfaces.ICardProvider;
 import sk.andrejmik.bank_server.data_access.repository.ICardRepository;
 import sk.andrejmik.bank_server.entities.Card;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -43,7 +42,7 @@ public class CardProvider implements ICardProvider
     @Override
     public Card get(Object id)
     {
-        return mCardRepository.findById((Long) id).get();
+        return mCardRepository.findById((String) id).get();
     }
 
     @Override
@@ -61,13 +60,21 @@ public class CardProvider implements ICardProvider
     }
 
     @Override
-    public void delete(Object id)
+    public boolean delete(Object id)
     {
-        mCardRepository.deleteById((Long) id);
+        try
+        {
+            mCardRepository.deleteById((String) id);
+            log.info("Card deleted");
+        } catch (Exception e)
+        {
+            return false;
+        }
+        return true;
     }
 
     @Override
-    public Collection<Card> getAll()
+    public List<Card> getAll()
     {
         return StreamSupport.stream(mCardRepository.findAll().spliterator(), false).collect(Collectors.toList());
     }
