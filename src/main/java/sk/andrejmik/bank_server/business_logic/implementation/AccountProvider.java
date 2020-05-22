@@ -2,20 +2,24 @@ package sk.andrejmik.bank_server.business_logic.implementation;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Repository;
 import sk.andrejmik.bank_server.business_logic.interfaces.IAccountProvider;
 import sk.andrejmik.bank_server.data_access.repository.IAccountRepository;
 import sk.andrejmik.bank_server.entities.Account;
 
-import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Slf4j
-@Service
+@Repository
 public class AccountProvider implements IAccountProvider
 {
     private final IAccountRepository mAccountRepository;
 
     @Autowired
+    @Lazy
     public AccountProvider(IAccountRepository accountRepository)
     {
         mAccountRepository = accountRepository;
@@ -38,7 +42,11 @@ public class AccountProvider implements IAccountProvider
     @Override
     public Account get(Object id)
     {
-        return mAccountRepository.getOne((Long) id);
+        if (mAccountRepository.findById((String) id).isPresent())
+        {
+            return mAccountRepository.findById((String) id).get();
+        }
+        return null;
     }
 
     @Override
@@ -56,14 +64,22 @@ public class AccountProvider implements IAccountProvider
     }
 
     @Override
-    public void delete(Object id)
+    public boolean delete(Object id)
     {
-        mAccountRepository.deleteById((Long) id);
+        try
+        {
+            mAccountRepository.deleteById((String) id);
+            log.info("Account deleted");
+        } catch (Exception e)
+        {
+            return false;
+        }
+        return true;
     }
 
     @Override
-    public Collection<Account> getAll()
+    public List<Account> getAll()
     {
-        return mAccountRepository.findAll();
+        return StreamSupport.stream(mAccountRepository.findAll().spliterator(), false).collect(Collectors.toList());
     }
 }

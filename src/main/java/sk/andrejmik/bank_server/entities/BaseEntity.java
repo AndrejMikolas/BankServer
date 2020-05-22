@@ -2,8 +2,8 @@ package sk.andrejmik.bank_server.entities;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.annotation.Id;
 
-import javax.persistence.*;
 import java.io.Serializable;
 
 @Getter
@@ -11,7 +11,5 @@ import java.io.Serializable;
 public abstract class BaseEntity implements Serializable
 {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID")
-    private long id;
+    private String id;
 }

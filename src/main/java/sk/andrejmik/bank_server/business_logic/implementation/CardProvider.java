@@ -2,20 +2,24 @@ package sk.andrejmik.bank_server.business_logic.implementation;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Repository;
 import sk.andrejmik.bank_server.business_logic.interfaces.ICardProvider;
 import sk.andrejmik.bank_server.data_access.repository.ICardRepository;
 import sk.andrejmik.bank_server.entities.Card;
 
-import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Slf4j
-@Service
+@Repository
 public class CardProvider implements ICardProvider
 {
     private final ICardRepository mCardRepository;
 
     @Autowired
+    @Lazy
     public CardProvider(ICardRepository cardRepository)
     {
         mCardRepository = cardRepository;
@@ -38,6 +42,10 @@ public class CardProvider implements ICardProvider
     @Override
     public Card get(Object id)
     {
+        if (mCardRepository.findById((String) id).isPresent())
+        {
+            return mCardRepository.findById((String) id).get();
+        }
         return null;
     }
 
@@ -56,14 +64,22 @@ public class CardProvider implements ICardProvider
     }
 
     @Override
-    public void delete(Object id)
+    public boolean delete(Object id)
     {
-        mCardRepository.deleteById((Long) id);
+        try
+        {
+            mCardRepository.deleteById((String) id);
+            log.info("Card deleted");
+        } catch (Exception e)
+        {
+            return false;
+        }
+        return true;
     }
 
     @Override
-    public Collection<Card> getAll()
+    public List<Card> getAll()
     {
-        return mCardRepository.findAll();
+        return StreamSupport.stream(mCardRepository.findAll().spliterator(), false).collect(Collectors.toList());
     }
 }
