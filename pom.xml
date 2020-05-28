@@ -13,6 +13,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>bank_server</name>
     <description>Demo project for Spring Boot</description>
+    <packaging>jar</packaging>
 
     <properties>
         <java.version>1.8</java.version>
@@ -78,22 +79,22 @@
         </resources>
     </build>
 
-<!--    <profiles>-->
-<!--        <profile>-->
-<!--            <id>loc</id>-->
-<!--            <activation>-->
-<!--                <activeByDefault>true</activeByDefault>-->
-<!--            </activation>-->
-<!--            <properties>-->
-<!--                <spring.profiles.active>loc</spring.profiles.active>-->
-<!--            </properties>-->
-<!--        </profile>-->
-<!--        <profile>-->
-<!--            <id>prod</id>-->
-<!--            <properties>-->
-<!--                <spring.profiles.active>prod</spring.profiles.active>-->
-<!--            </properties>-->
-<!--        </profile>-->
-<!--    </profiles>-->
+    <profiles>
+        <profile>
+            <id>local</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <activatedProperties>local</activatedProperties>
+            </properties>
+        </profile>
+        <profile>
+            <id>production</id>
+            <properties>
+                <activatedProperties>production</activatedProperties>
+            </properties>
+        </profile>
+    </profiles>
 
 </project>
